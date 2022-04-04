@@ -5,7 +5,7 @@ on: [pull_request, push, workflow_dispatch]
 jobs:
   test_n_lint:
     name: Test n' Lint
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       # Checkout source code and setup node version.
       - uses: actions/checkout@v2
