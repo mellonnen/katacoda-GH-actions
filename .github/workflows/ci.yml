@@ -13,18 +13,18 @@ jobs:
         with:
           node-version: "16.x"
 
-    # Cache dependencies
-    - name: Cache Yarn
-      uses: actions/cache@v3
-      id: cache-yarn
-      env:
-        cache-name: yarn-cache
-      with:
-        path: |
-          node_modules
-          .yarn
-        key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
-        restore-keys: ${{ runner.os }}-${{ env.cache-name }}-
+      # Cache dependencies
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        id: cache-yarn
+        env:
+          cache-name: yarn-cache
+        with:
+          path: |
+            node_modules
+            .yarn
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ runner.os }}-${{ env.cache-name }}-
 
       # Install dependencies 
 
