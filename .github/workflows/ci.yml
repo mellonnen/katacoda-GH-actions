@@ -9,6 +9,9 @@ jobs:
     steps:
       # Checkout source code and setup node version.
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-node@v2
         with:
           node-version: "16.x"
@@ -37,5 +40,25 @@ jobs:
       - name: Lint
         run: yarn lint
 
+
+      - name: Find reference commit on current branch
+        if: github.event_name != 'pull_request'
+        uses: nrwl/last-successful-commit-action@v1
+        id: last_successful_commit
+        with:
+          branch: $${{ github.ref_name }}
+          workflow_id: ci.yml
+          github_token: $${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup test flags
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]];
+          then
+            echo "TEST_FLAGS=--changedSince ${{ github.event.pull_request.base.sha }}" >> $GITHUB_ENV
+          elif [[ -n "${{ steps.last_successful_commit.outputs.commit_hash }}" ]];
+          then
+            echo "TEST_FLAGS=--changedSince ${{ steps.last_successful_commit.outputs.commit_hash }}" >> $GITHUB_ENV
+          fi
+
       - name: Test
-        run: yarn test
+        run: yarn test $TEST_FLAGS
