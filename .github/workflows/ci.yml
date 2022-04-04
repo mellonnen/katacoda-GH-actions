@@ -48,7 +48,7 @@ jobs:
         with:
           branch: ${{ github.ref_name }}
           workflow_id: ci.yml
-          github_token: $${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup test flags
         run: |
