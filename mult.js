@@ -1,9 +1,5 @@
 function mult(a, b) {
-  let res = 0;
-  for (let i = 0; i < b; i++) {
-    res += a;
-  }
-  return res;
+  return a * b;
 }
 
 export default mult;
